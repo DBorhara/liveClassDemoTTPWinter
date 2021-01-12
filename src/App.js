@@ -1,42 +1,62 @@
-import logo from './logo.svg';
+import { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import axios from 'axios';
 import './App.css';
 
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Homepage from './components/HomePage/HomePage';
+import About from './components/About/About';
+import PokemonDisplay from './components/PokemonDisplay/PokemonDisplay';
+import PokemonInfo from './components/PokemonInfo/PokemonInfo';
 
-//Components
-import Homepage from './components/HomePage';
-import About from './components/About';
-import Contacts from './components/Contacts';
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pokemonNames: [],
+    };
+  }
 
-function App() {
-  return (
-    <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to="/">HomePage</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/about/ceo">About</Link>
-          </li>
-          <li>
-            <Link to="/contacts">Contacts</Link>
-          </li>
-        </ul>
+  async componentDidMount() {
+    try {
+      let pokemonNames = await axios.get(
+        'https://pokeapi.co/api/v2/pokemon?limit=151'
+      );
+      this.setState({ pokemonNames: pokemonNames.data.results });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-        <Switch>
-          <Route exact path="/" component={Homepage} />
-          <Route exact path="/about" component={About} />
-          <Route path="/about/:position" component={About} />
+  render() {
+    return (
+      <Router>
+        <div>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/generation1">Genereation 1 Pokemon</Link>
+            </li>
+          </ul>
 
-          <Route path="/contacts" component={Contacts} />
-        </Switch>
-      </div>
-    </Router>
-  );
+          <hr />
+
+          <Switch>
+            <Route exact path="/" component={Homepage} />
+            <Route path="/about" component={About} />
+            <Route path="/generation1">
+              <PokemonDisplay pokemonNames={this.state.pokemonNames} />
+            </Route>
+            <Route path="/pokemon/:id" component={PokemonInfo} />
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;
