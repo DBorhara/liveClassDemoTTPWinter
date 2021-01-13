@@ -12,6 +12,7 @@ class PokemonInfo extends Component {
   }
   async componentDidMount() {
     let id = this.props.match.params.id;
+    console.log(this.props);
     let pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
     console.log(pokemon.data);
     const { name, sprites, types } = pokemon.data;
