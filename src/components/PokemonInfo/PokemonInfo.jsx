@@ -5,7 +5,7 @@ import { getSinglePokemon } from '../../redux/reducers';
 class PokemonInfo extends Component {
   async componentDidMount() {
     let id = this.props.match.params.id;
-    this.props.getSinglePokemon(id);
+    await this.props.getSinglePokemon(id);
   }
 
   render() {
@@ -14,29 +14,17 @@ class PokemonInfo extends Component {
       sprites: { front_default },
       types,
     } = this.props.pokemon;
-    return (
-      <div>
-        <h1>Name:{name}</h1>
-        <img alt="pokemon" src={front_default} />
-        Types:
-        {types.map((pokemonTypes, index) => (
-          <h4 key={index}>{pokemonTypes.type.name}</h4>
-        ))}
-      </div>
-    );
+    console.log(name, front_default, types);
+    return <h1>test</h1>;
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    pokemon: state.pokemon,
-  };
-};
+const mapStateToProps = (state) => ({
+  pokemon: state.pokemon,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getSinglePokemon: (id) => dispatch(getSinglePokemon(id)),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  getSinglePokemon: (id) => dispatch(getSinglePokemon(id)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PokemonInfo);
