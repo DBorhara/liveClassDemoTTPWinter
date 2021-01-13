@@ -1,36 +1,25 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { getSinglePokemon } from '../../redux/reducers';
 
 class PokemonInfo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      sprite: '',
-      types: [],
-    };
-  }
   async componentDidMount() {
     let id = this.props.match.params.id;
-    console.log(this.props);
-    let pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    console.log(pokemon.data);
-    const { name, sprites, types } = pokemon.data;
-    this.setState({
-      name,
-      sprite: sprites.front_default,
-      types,
-    });
-    console.log(types[0].type.name);
+    this.props.getSinglePokemon(id);
   }
 
   render() {
+    const {
+      name,
+      sprites: { front_default },
+      types,
+    } = this.props.pokemon;
     return (
       <div>
-        <h1>Name:{this.state.name}</h1>
-        <img alt="pokemon" src={this.state.sprite} />
+        <h1>Name:{name}</h1>
+        <img alt="pokemon" src={front_default} />
         Types:
-        {this.state.types.map((pokemonTypes, index) => (
+        {types.map((pokemonTypes, index) => (
           <h4 key={index}>{pokemonTypes.type.name}</h4>
         ))}
       </div>
@@ -38,4 +27,16 @@ class PokemonInfo extends Component {
   }
 }
 
-export default PokemonInfo;
+const mapStateToProps = (state) => {
+  return {
+    pokemon: state.pokemon,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getSinglePokemon: (id) => dispatch(getSinglePokemon(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PokemonInfo);

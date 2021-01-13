@@ -1,19 +1,36 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getGen1Pokemon } from '../../redux/reducers';
 
 import PokemonCard from '../PokemonCard/PokemonCard';
 
-const PokemonDisplay = (props) => (
-  <div>
-    {props.pokemonNames.map((pokemon, index) => {
-      return (
-        <PokemonCard
-          key={index}
-          number={index + 1}
-          name={pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
-        />
-      );
-    })}
-  </div>
-);
+class PokemonDisplay extends Component {
+  async componentDidMount() {
+    await this.props.getGen1Pokemon();
+    console.log(this.props.gen1);
+  }
 
-export default PokemonDisplay;
+  render() {
+    return (
+      <div>
+        {this.props.gen1Pokemon.map((pokemon, index) => {
+          return (
+            <PokemonCard key={index} number={index + 1} name={pokemon.name} />
+          );
+        })}
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    gen1Pokemon: state.pokemonNames,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  getGen1Pokemon: () => dispatch(getGen1Pokemon()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PokemonDisplay);
