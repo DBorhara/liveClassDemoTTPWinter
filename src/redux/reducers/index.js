@@ -52,8 +52,6 @@ export const getSinglePokemon = (id) => {
   };
 };
 
-
-//Root Reducer
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case GOT_GEN1_POKEMON:
