@@ -20,7 +20,9 @@ class PokemonInfo extends Component {
     return (
       <div>
         <h1>Name:{name}</h1>
-        {sprites ? <img alt="pokemon" src={sprites.front_default} /> : ''}
+        {sprites
+          ? <img alt="pokemon" src={sprites.front_default} />
+          : ''}
         Types:
         {types
           ? types.map((pokeTypes, index) => {

@@ -24,15 +24,17 @@ const gotSinglePokemon = (payload) => ({
 //Thunks - Just action creators that take a function
 
 export const getGen1Pokemon = () => {
+  console.log('ABOUT TO THUNK');
   return async (dispatch) => {
     try {
-      const response = await axios.get(
-        'https://pokeapi.co/api/v2/pokemon?limit=151'
-      );
-      const {
-        data: { results },
-      } = response;
-      dispatch(gotGen1Pokemon(results));
+      const response = await axios.get(`http://localhost:8080/`, {
+        params: { amount: 50 },
+      });
+
+      console.log('WE WANT THIS RESPONSE', response);
+
+      console.log('ABOUT TO DISPATCH GOTGEN1POKEMON');
+      dispatch(gotGen1Pokemon(response.data));
     } catch (error) {
       console.error(error);
     }
@@ -42,9 +44,7 @@ export const getGen1Pokemon = () => {
 export const getSinglePokemon = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${id}`
-      );
+      const response = await axios.get(`http://localhost:8080/pokemon/${id}`);
       dispatch(gotSinglePokemon(response.data));
     } catch (error) {
       console.error(error);
@@ -53,6 +53,9 @@ export const getSinglePokemon = (id) => {
 };
 
 const rootReducer = (state = initialState, action) => {
+  console.log('REDUCER IS PROCESSING DISPATCHED ACTION');
+  console.log('state', state);
+  console.log('action', action);
   switch (action.type) {
     case GOT_GEN1_POKEMON:
       return { ...state, pokemonNames: action.payload };

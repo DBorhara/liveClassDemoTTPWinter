@@ -6,11 +6,12 @@ import PokemonCard from '../PokemonCard/PokemonCard';
 
 class PokemonDisplay extends Component {
   async componentDidMount() {
+    console.log('COMPONENT DID MOUNT');
     await this.props.getGen1Pokemon();
-    console.log(this.props.gen1);
   }
 
   render() {
+    console.log('RENDER');
     return (
       <div>
         {this.props.gen1Pokemon.map((pokemon, index) => {
@@ -24,13 +25,18 @@ class PokemonDisplay extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log('MAP STATE TO PROPS');
   return {
     gen1Pokemon: state.pokemonNames,
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getGen1Pokemon: () => dispatch(getGen1Pokemon()),
-});
+const mapDispatchToProps = (dispatch) => {
+  console.log('MAP DISPATCH TO PROPS');
+
+  return {
+    getGen1Pokemon: () => dispatch(getGen1Pokemon()),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PokemonDisplay);

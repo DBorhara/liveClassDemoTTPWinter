@@ -1,2 +1,3 @@
  export const GOT_GEN1_POKEMON = 'GOT_GEN1_POKEMON'
+
  export const GOT_SINGLE_POKEMON = 'GOT_SINGLE_POKEMON'
