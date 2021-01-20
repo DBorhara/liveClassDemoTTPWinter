@@ -16,7 +16,11 @@ class PokemonDisplay extends Component {
       <div>
         {this.props.gen1Pokemon.map((pokemon, index) => {
           return (
-            <PokemonCard key={index} number={index + 1} name={pokemon.name} />
+            <PokemonCard
+              key={index}
+              number={index + 1}
+              name={pokemon.nickname}
+            />
           );
         })}
       </div>

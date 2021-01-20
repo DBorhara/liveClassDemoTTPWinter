@@ -7,6 +7,7 @@ import Homepage from './components/HomePage/HomePage';
 import About from './components/About/About';
 import PokemonDisplay from './components/PokemonDisplay/PokemonDisplay';
 import PokemonInfo from './components/PokemonInfo/PokemonInfo';
+import NewPokemon from './components/NewPokemon/NewPokemon';
 
 class App extends Component {
   constructor(props) {
@@ -41,6 +42,9 @@ class App extends Component {
             <li>
               <Link to="/generation1">Genereation 1 Pokemon</Link>
             </li>
+            <li>
+              <Link to="/newPokemon">Create New Pokemon</Link>
+            </li>
           </ul>
 
           <hr />
@@ -52,6 +56,7 @@ class App extends Component {
               <PokemonDisplay pokemonNames={this.state.pokemonNames} />
             </Route>
             <Route path="/pokemon/:id" component={PokemonInfo} />
+            <Route path="/newPokemon" component={NewPokemon} />
           </Switch>
         </div>
       </Router>

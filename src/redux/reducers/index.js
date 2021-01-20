@@ -27,14 +27,12 @@ export const getGen1Pokemon = () => {
   console.log('ABOUT TO THUNK');
   return async (dispatch) => {
     try {
-      const response = await axios.get(`http://localhost:8080/`, {
-        params: { amount: 50 },
-      });
+      const {data} = await axios.get(`http://localhost:8080/api/pokemon`);
 
-      console.log('WE WANT THIS RESPONSE', response);
+      console.log('WE WANT THIS RESPONSE', data);
 
       console.log('ABOUT TO DISPATCH GOTGEN1POKEMON');
-      dispatch(gotGen1Pokemon(response.data));
+      dispatch(gotGen1Pokemon(data));
     } catch (error) {
       console.error(error);
     }
